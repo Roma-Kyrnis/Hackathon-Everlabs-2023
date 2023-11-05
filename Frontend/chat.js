@@ -13,9 +13,8 @@ ws.onmessage = function (event) {
 
 ws.addEventListener("message", function(event) {
     const data = JSON.parse(event.data);
-
     if (data.type === "message") {
-        addMessage(data.data);
+        addMessage(data.message, data.sender);
     }
 });
 
@@ -35,13 +34,17 @@ function sendMessage() {
     
     const sender = localStorage.getItem('user')
     ws.send(JSON.stringify({ type: "message", message: message, reseiver_id : userid, sender: JSON.parse(sender)  }));
-    addMessage(message);
+    addMessage(message, JSON.parse(sender).id);
     document.getElementById("message").value = "";
 }
 
-function addMessage(message) {
-    const node = document.createElement("li");
+function addMessage(message, user) {
+    const node = document.createElement("p");
     const text = document.createTextNode(message);
+    if (JSON.parse(localStorage.getItem('user')).id == user){
+
+        node.classList.add('sender')
+    }
 
     node.appendChild(text);
 

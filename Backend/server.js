@@ -23,10 +23,12 @@ wss.on("connection", function connection(ws) {
   
   ws.on("message", function message(message) {
     const data = JSON.parse(message);
+    console.log(message, data);
     if (data.type === "message") {
       wss.clients.forEach((client) => {
         if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ type: "message", data: data.data }));
+          console.log(data.message);
+          client.send(JSON.stringify({ type: "message", message: data.message, sender: data.sender.id }));
         }
       });
     }
