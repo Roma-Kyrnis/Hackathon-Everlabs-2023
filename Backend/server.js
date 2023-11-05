@@ -35,6 +35,7 @@ wss.on("connection", (ws, req) => {
   ws.send(JSON.stringify({ users: USERS }));
 
   ws.on("message", (message) => {
-    sendMessage(data.sender.id, data.receiver_id, data.message);
+    const data = JSON.parse(message);
+    sendMessage(data.sender?.id, data.receiver_id, data.message);
   });
 });
