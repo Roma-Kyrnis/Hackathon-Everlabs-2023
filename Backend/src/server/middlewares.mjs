@@ -1,7 +1,5 @@
-function setErrorResponse(incomingError, ctx) {
+const setErrorResponse = (incomingError, ctx) => {
   ctx.status = incomingError.status || 500;
-
-  if (incomingError.name === DATABASE) ctx.status = 409;
 
   const defaultMessage = ctx.response.message;
   const errMessage =
@@ -16,7 +14,7 @@ function setErrorResponse(incomingError, ctx) {
   }
 }
 
-function errorHandler() {
+export const errorHandler = () => {
   return async (ctx, next) => {
     try {
       await next();
@@ -29,6 +27,4 @@ function errorHandler() {
       ctx.app.emit("error", err, ctx);
     }
   };
-}
-
-module.export = { errorHandler };
+};
