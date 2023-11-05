@@ -2,12 +2,10 @@ const ws = new WebSocket("ws://localhost:3000");
 const datalist = document.getElementById('hints')
 let datausers; 
 ws.onmessage = function (event) {
-    
     datausers = JSON.parse(event.data) // The received data
     for (i = 0; i < datausers.length; i++) {
         const node = document.createElement("option");
-        node.value = "@" + datausers[i].name;
-        node.custom = datausers[i]
+        node.value = "@" + datausers[i].username;
         datalist.appendChild(node);
     }
 };
@@ -30,13 +28,13 @@ function sendMessage() {
     const user = splitedmsg[0].slice(1);
     let userid;
     for (i = 0; i < datausers.length; i++) {
-        if (datausers[i].name == user){
+        if (datausers[i].username == user){
             userid = datausers[i].id
         } 
     }
     
     const sender = localStorage.getItem('user')
-    ws.send(JSON.stringify({ type: "message", message: message, owner_id : userid, sender: sender  }));
+    ws.send(JSON.stringify({ type: "message", message: message, reseiver_id : userid, sender: sender  }));
     addMessage(message);
     document.getElementById("message").value = "";
 }
