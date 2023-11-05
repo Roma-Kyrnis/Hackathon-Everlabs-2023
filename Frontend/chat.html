@@ -2,49 +2,29 @@
 <html>
   <head>
     <title>Chat Application</title>
+    <link rel="stylesheet" type="text/css" href="chatstyles.css">
   </head>
   <body>
-    <ul id="chat">
-        <li>message</li>
-        <li>message</li>
-        <li>message</li>
-        <li>message</li>
-
-    </ul>
-    <div class="flex">
-        <input id="message" type="text" class="text-holder" placeholder="Type your message..." />
-        <button class="sendmessage" onclick="sendMessage()">Send</button>
+    <div class="dropdown">
+        <button class="dropbtn">Dropdown</button>
+        <div class="dropdown-content" id="myDropdown">
+            <ul id="chat">
+                <li>message</li>
+                <li>message</li>
+                <li>message</li>
+                <li>message</li>
+        
+            </ul>
+            <div class="flex">
+                <input id="message" type="text" class="text-holder" placeholder="Type your message..." list="hints" />
+                <button class="sendmessage" onclick="sendMessage()">Send</button>
+                <datalist id="hints">
+                    <!-- Add more hints as needed -->
+                </datalist>
+            </div>
+        </div>
     </div>
-    <script>
-        const ws = new WebSocket("ws://localhost:3000");
-
-        ws.addEventListener("message", function(event) {
-            const data = JSON.parse(event.data);
-
-            if (data.type === "message") {
-                addMessage(data.data);
-            }
-        });
-
-        function sendMessage() {
-            const message = document.getElementById("message").value;
-
-            if (!message) return false;
-
-            ws.send(JSON.stringify({ type: "message", data: message }));
-
-            addMessage(message);
-            document.getElementById("message").value = "";
-        }
-
-        function addMessage(message) {
-            const node = document.createElement("li");
-            const text = document.createTextNode(message);
-
-            node.appendChild(text);
-
-            document.getElementById("chat").appendChild(node);
-        }
-    </script>
+    <script src="dropchat.js"></script>
+    <script src="chat.js"></script>
   </body>
 </html>
