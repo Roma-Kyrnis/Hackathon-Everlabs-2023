@@ -34,7 +34,7 @@ function sendMessage() {
     }
     
     const sender = localStorage.getItem('user')
-    ws.send(JSON.stringify({ type: "message", message: message, reseiver_id : userid, sender: sender  }));
+    ws.send(JSON.stringify({ type: "message", message: message, reseiver_id : userid, sender: JSON.parse(sender)  }));
     addMessage(message);
     document.getElementById("message").value = "";
 }
