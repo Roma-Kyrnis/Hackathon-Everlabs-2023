@@ -2,6 +2,7 @@ const ws = new WebSocket("ws://localhost:3000");
 const datalist = document.getElementById('hints')
 let datausers; 
 ws.onmessage = function (event) {
+    
     datausers = JSON.parse(event.data) // The received data
     for (i = 0; i < datausers.length; i++) {
         const node = document.createElement("option");
@@ -33,8 +34,9 @@ function sendMessage() {
             userid = datausers[i].id
         } 
     }
-
-    ws.send(JSON.stringify({ type: "message", data: message, id : userid }));
+    
+    const sender = localStorage.getItem('user')
+    ws.send(JSON.stringify({ type: "message", message: message, owner_id : userid, sender: sender  }));
     addMessage(message);
     document.getElementById("message").value = "";
 }
